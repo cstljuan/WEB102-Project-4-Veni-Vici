@@ -69,7 +69,7 @@ export function isCatBanned(cat, banned) {
     if (entry.type === 'breed') return cat.breed.id === entry.value;
     if (entry.type === 'origin') return cat.breed.origin === entry.value;
     if (entry.type === 'temperament') {
-      return cat.breed.temperament.split(',').map((word) => word.trim()).includes(entry.value);
+      return cat.breed.temperament === entry.value;
     }
     return false;
   });
