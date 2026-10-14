@@ -1,7 +1,10 @@
 const API_ROOT = 'https://commons.wikimedia.org/w/api.php';
 const PAGE_SIZE = 50;
 const MAX_PAGES = 4;
-const SEARCH_WINDOW = 10_000;
+// Commons' search results for this category fit within the first few pages.
+// Large offsets silently return an empty `pages` object, so randomize only
+// within the verified result window.
+const SEARCH_WINDOW = 100;
 
 function plainText(value = '') {
   return value
