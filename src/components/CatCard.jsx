@@ -1,3 +1,5 @@
+import React from 'react';
+
 function Attribute({ type, value, onBan, title }) {
   const description = type === 'creator' ? 'Creator' : type === 'date' ? 'Date' : 'License';
   return (

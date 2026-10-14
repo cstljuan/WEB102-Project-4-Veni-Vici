@@ -1,4 +1,4 @@
-import { useCallback, useRef, useState } from 'react';
+import React, { useCallback, useRef, useState } from 'react';
 import BanList from './components/BanList.jsx';
 import CatCard from './components/CatCard.jsx';
 import { fetchRandomCats, findAllowedCat, MAX_PAGES } from './lib/cats.js';

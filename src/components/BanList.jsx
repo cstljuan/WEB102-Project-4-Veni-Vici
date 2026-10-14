@@ -1,3 +1,5 @@
+import React from 'react';
+
 function BanList({ items, onRemove, onClear }) {
   return (
     <section className="ban-panel" aria-labelledby="ban-heading">
