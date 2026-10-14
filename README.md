@@ -38,11 +38,9 @@ The following **additional** features are implemented:
 
 Here's a walkthrough of implemented user stories:
 
-<img src='walkthrough.gif' title='Veni Vici walkthrough showing discovery, attribute bans, filter removal, and session history' width='700' alt='Walkthrough recording pending' />
+<img src='walkthrough.gif' title='Veni Vici walkthrough showing discovery, attribute bans, filter removal, and session history' width='700' alt='Veni Vici walkthrough: discover a cat, ban its creator, remove the ban, discover another cat, and open the trail' />
 
-**Recording pending:** replace `walkthrough.gif` with an authentic capture that includes adding a ban, removing it from the ban list, discovering another cat photo, and reviewing session history.
-
-<!-- Replace this note after recording with the GIF capture tool used. -->
+The recording was captured from the deployed app at https://veni-vici-walkthrough.vercel.app/ with the Claude in Chrome GIF recorder. It shows Discover, clicking a creator to ban it, removing that ban from the list, discovering another cat, and opening the session trail.
 
 ## Notes
 
