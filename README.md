@@ -4,7 +4,7 @@ Submitted by: **Juan Castillo**
 
 This web app: **is a cat-photo discovery club. Meet one photo at a time, learn its title, creator, date, and license, ban details you want to skip, and revisit every discovery from your session.**
 
-Time spent: **To be confirmed by Juan** hours spent in total
+Time spent: **3** hours spent in total
 
 ## Required Features
 
