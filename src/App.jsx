@@ -1,7 +1,7 @@
 import { useCallback, useRef, useState } from 'react';
 import BanList from './components/BanList.jsx';
 import CatCard from './components/CatCard.jsx';
-import { fetchRandomCats, findAllowedCat, isCatBanned, MAX_PAGES } from './lib/cats.js';
+import { fetchRandomCats, findAllowedCat, MAX_PAGES } from './lib/cats.js';
 
 function App() {
   const [current, setCurrent] = useState(null);
@@ -38,11 +38,11 @@ function App() {
         return;
       }
 
-      if (tried.size === 0) throw new Error('No cat portraits came back. Please try again.');
+      if (tried.size === 0) throw new Error('No cat photos came back. Please try again.');
       setMessage(`The last ${tried.size} portraits missed your filters. Remove a filter or try again.`);
     } catch (cause) {
       setError(cause instanceof Error ? cause.message : 'Something interrupted the discovery. Please try again.');
-      setMessage('The cat files are taking a break.');
+      setMessage('The Commons collection is taking a break.');
     } finally {
       inFlight.current = false;
       setLoading(false);
@@ -66,7 +66,7 @@ function App() {
     setMessage('Your no-thanks list is clear.');
   };
 
-  const displayed = current && isCatBanned(current, banned) ? null : current;
+  const displayed = current;
 
   return (
     <div className="site-shell">
@@ -102,7 +102,7 @@ function App() {
               <path d="M118 205 46 195m75 24-73 4m194-18 73-10m-73 34 75 3" fill="none" stroke="#402c27" strokeWidth="3" strokeLinecap="round" />
               <path d="M166 94c-7 23-8 39-5 50m26-50c8 23 9 39 6 50" fill="none" stroke="#b86e48" strokeWidth="5" strokeLinecap="round" />
             </svg>
-            <span className="hero-art-caption">A portrait from the<br />ever-growing cat library</span>
+            <span className="hero-art-caption">A cat photo from<br />the Commons collection</span>
           </div>
         </section>
 
@@ -126,7 +126,7 @@ function App() {
             <div className="how-panel">
               <p className="eyebrow">How it works</p>
               <ol><li><span>01</span>Meet a cat and explore its details.</li><li><span>02</span>Tap any attribute to skip it next time.</li><li><span>03</span>Open a crossed-off filter to welcome it back.</li></ol>
-              <p className="source-note">Images and breed details from <a href="https://thecatapi.com/" target="_blank" rel="noreferrer">The Cat API ↗</a></p>
+              <p className="source-note">Cat photos and file metadata from <a href="https://commons.wikimedia.org/wiki/Category:Cats" target="_blank" rel="noreferrer">Wikimedia Commons ↗</a></p>
             </div>
           </aside>
         </div>

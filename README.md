@@ -2,7 +2,7 @@
 
 Submitted by: **Juan Castillo**
 
-This web app: **is a cat discovery club. Meet one cat at a time, learn about its breed, origin, and temperament, ban the details you want to skip, and revisit every cat from your session.**
+This web app: **is a cat-photo discovery club. Meet one photo at a time, learn its title, creator, date, and license, ban details you want to skip, and revisit every discovery from your session.**
 
 Time spent: **To be confirmed by Juan** hours spent in total
 
@@ -10,44 +10,45 @@ Time spent: **To be confirmed by Juan** hours spent in total
 
 The following **required** functionality is completed:
 
-- [x] **The app can call an API and display an item**
-  - Discover makes a new asynchronous request to The Cat API.
-  - The response is parsed and normalized before it enters React state.
-- [x] **The displayed item includes a matching image and at least three consistent attributes**
-  - One current cat appears at a time with breed, origin, and temperament.
-  - Images come from the same Cat API record as the selected breed metadata.
-- [x] **The user can ban attributes and remove them from the ban list**
-  - Breed, origin, and temperament are clickable.
-  - Selecting an attribute adds it to the visible no-thanks list.
-  - Selecting a list item removes that ban; Clear all removes every ban.
-- [x] **Future results that match banned values are skipped**
-  - Each discovery checks a batch of results and fetches another batch when needed.
-  - Already-seen image IDs are skipped so repeats are less frequent.
-- [x] **The app shows one current result and provides loading, error, and no-match feedback**
+- [x] **Application features a button that creates a new API fetch request on click and displays at least three attributes and an image obtained from the returned JSON data**
+  - The same attribute types appear for every result: creator, date, and license. The file title and description are also displayed.
+- [x] **Only one item/data from API call response is viewable at a time and at least one image is displayed per API call**
+  - A single current result is shown at a time. Its image and metadata come from the same Wikimedia Commons file record.
+- [x] **API call response results should appear random to the user**
+  - Each request selects a random search offset from the large Commons cat image category. Already-seen files are skipped during this session.
+- [x] **Clicking on a displayed value for one attribute adds it to a displayed ban list**
+  - Creator, date, and license values are clickable. Clicking a value adds it to the list; clicking it in the list removes it immediately.
+- [x] **Attributes on the ban list prevent further images/API results with that attribute from being displayed**
+  - Each response batch is checked against active bans and the app requests another batch when needed. It shows a no-match message if four batches contain no eligible result.
+  - [x] _The walkthrough recording must show a banned attribute being immediately removed from the list._
 
 The following **optional** features are implemented:
 
-- [x] Multiple attribute types can be added to the ban list.
-- [x] Previously viewed cats are stored in session state and shown in a dedicated history section.
-- [x] Each history item includes its own image and the same three attributes.
+- [x] Multiple types of attributes are clickable and can be added to the ban list.
+- [x] Users can see a stored history of their previously displayed results from this session.
+  - A dedicated section displays each previous image and its attributes.
+  - Each successful Discover action updates the history with the newest result.
 
 The following **additional** features are implemented:
 
-- [x] Filters apply to breed identity, origin, and the first displayed temperament value.
-- [x] Results are de-duplicated during the session and history is newest first.
-- [x] Responsive layouts, keyboard focus indicators, image descriptions, live status feedback, and reduced-motion support.
+* [x] Full creator, date, and license values can be banned. History items have the same clickable attributes.
+* [x] Loading, error, exhausted-filter feedback, keyboard focus indicators, image descriptions, live status feedback, responsive layouts, and reduced-motion support.
 
 ## Video Walkthrough
 
-![Veni Vici walkthrough showing discovery, attribute bans, filter removal, and session history](walkthrough.gif)
+Here's a walkthrough of implemented user stories:
 
-**Walkthrough recording pending.** Replace this placeholder with a recorded GIF before submission.
+<img src='walkthrough.gif' title='Veni Vici walkthrough showing discovery, attribute bans, filter removal, and session history' width='700' alt='Walkthrough recording pending' />
+
+**Recording pending:** replace `walkthrough.gif` with an authentic capture that includes adding a ban, removing it from the ban list, discovering another cat photo, and reviewing session history.
+
+<!-- Replace this note after recording with the GIF capture tool used. -->
 
 ## Notes
 
-The app requests random, medium-sized images that have breed data from The Cat API. `src/lib/cats.js` normalizes the response to one stable shape. `App` owns the current cat, session history, ban list, and request state. A discovery checks up to four batches of 40 images, skips matching filters and already-seen IDs, and only then updates the current result and history. Breed, origin, and temperament filters are compared to the same values shown on the card.
+The app searches Wikimedia Commons for files in its cat image category and requests image URLs plus file metadata in one query. It filters out audio and other non-image files, then normalizes the image URL, title, creator, date, license, and description. `App` owns the current result, session history, ban list, and request state. Each discovery checks up to four batches of 50 files, skips matching filters and already-seen file IDs, and only then updates the current result and history. The displayed attributes and image come from the same Commons file record.
 
-The API's open image and breed endpoints are used without a private key. The API and its available records are external services, so network access is needed to discover cats. See [LEARNING.md](LEARNING.md) for setup and implementation details.
+The Commons API is used without a private key. Individual Commons files may have different licenses; the app shows the license information returned with each file and links to its source page. Network access is required. See [LEARNING.md](LEARNING.md) for setup and implementation details.
 
 ## License
 
