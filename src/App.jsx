@@ -1,17 +1,27 @@
-import React, { useCallback, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import BanList from './components/BanList.jsx';
 import CatCard from './components/CatCard.jsx';
 import { fetchRandomCats, findAllowedCat, MAX_PAGES } from './lib/cats.js';
+import { loadSession, saveSession } from './lib/session.js';
 
 function App() {
-  const [current, setCurrent] = useState(null);
-  const [history, setHistory] = useState([]);
-  const [banned, setBanned] = useState([]);
+  const [initialSession] = useState(loadSession);
+  const [current, setCurrent] = useState(initialSession.current);
+  const [history, setHistory] = useState(initialSession.history);
+  const [banned, setBanned] = useState(initialSession.banned);
+  const [storageAvailable, setStorageAvailable] = useState(initialSession.storageAvailable);
   const [loading, setLoading] = useState(false);
-  const [message, setMessage] = useState('Your next favorite is one curious click away.');
+  const [message, setMessage] = useState(initialSession.current
+    ? 'Welcome back. Your last cat and trail are right where you left them.'
+    : 'Your next favorite is one curious click away.');
   const [error, setError] = useState('');
-  const seen = useRef(new Set());
+  const seen = useRef(new Set(initialSession.seenIds));
   const inFlight = useRef(false);
+
+  useEffect(() => {
+    const saved = saveSession({ current, history, banned, seenIds: [...seen.current] });
+    if (saved !== storageAvailable) setStorageAvailable(saved);
+  }, [current, history, banned, storageAvailable]);
 
   const discover = useCallback(async () => {
     if (inFlight.current) return;
@@ -134,7 +144,11 @@ function App() {
         <section id="history" className="history-section" aria-labelledby="history-heading">
           <div className="section-heading history-heading">
             <div><p className="eyebrow">The trail so far <span className="history-count">{history.length}</span></p><h2 id="history-heading">Cats you have met</h2></div>
-            <p className="history-intro">Your discoveries stay here while this page is open.</p>
+            <p className="history-intro">
+              {storageAvailable
+                ? 'Your trail is saved in this browser and will be here when you return.'
+                : 'This browser is blocking local storage, so this trail may not survive a reload.'}
+            </p>
           </div>
           {history.length ? (
             <div className="history-grid">{history.map((cat, index) => <CatCard key={cat.id} cat={cat} onBan={addBan} compact index={history.length - index} />)}</div>

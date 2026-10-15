@@ -1,10 +1,6 @@
 const API_ROOT = 'https://commons.wikimedia.org/w/api.php';
 const PAGE_SIZE = 50;
 const MAX_PAGES = 4;
-// Commons' search results for this category fit within the first few pages.
-// Large offsets silently return an empty `pages` object, so randomize only
-// within the verified result window.
-const SEARCH_WINDOW = 100;
 
 function plainText(value = '') {
   return value
@@ -53,11 +49,13 @@ export async function fetchRandomCats({ signal } = {}) {
     gsrsearch: 'incategory:Cats',
     gsrnamespace: '6',
     gsrlimit: String(PAGE_SIZE),
-    gsroffset: String(Math.floor(Math.random() * SEARCH_WINDOW)),
+    gsrsort: 'random',
     prop: 'imageinfo',
     iiprop: 'url|extmetadata|mime',
     iiurlwidth: '960',
     format: 'json',
+    maxage: '0',
+    smaxage: '0',
     origin: '*',
   });
   const response = await fetch(`${API_ROOT}?${params}`, { signal });
@@ -79,7 +77,9 @@ export function isCatBanned(cat, banned) {
 }
 
 export function findAllowedCat(records, banned, seenIds) {
-  return records.find((cat) => !isCatBanned(cat, banned) && !seenIds.has(cat.id));
+  const eligible = records.filter((cat) => !isCatBanned(cat, banned) && !seenIds.has(cat.id));
+  if (!eligible.length) return null;
+  return eligible[Math.floor(Math.random() * eligible.length)];
 }
 
 export { MAX_PAGES };

@@ -27,7 +27,7 @@ The following **optional** features are implemented:
 - [x] Multiple types of attributes are clickable and can be added to the ban list.
 - [x] Users can see a stored history of their previously displayed results from this session.
   - A dedicated section displays each previous image and its attributes.
-  - Each successful Discover action updates the history with the newest result.
+  - Each successful Discover action updates the history with the newest result, and the current cat, history, ban list, and seen IDs persist after reload in local browser storage.
 
 The following **additional** features are implemented:
 
@@ -44,7 +44,9 @@ The recording was captured from the deployed app at https://veni-vici-walkthroug
 
 ## Notes
 
-The app searches Wikimedia Commons for files in its cat image category and requests image URLs plus file metadata in one query. It filters out audio and other non-image files, then normalizes the image URL, title, creator, date, license, and description. `App` owns the current result, session history, ban list, and request state. Each discovery checks up to four batches of 50 files, skips matching filters and already-seen file IDs, and only then updates the current result and history. The displayed attributes and image come from the same Commons file record.
+The app searches Wikimedia Commons for files in its cat image category and requests image URLs plus file metadata in one query. Search results use the API's random sort order; the app also chooses randomly from eligible results within each batch. It filters out audio and other non-image files, then normalizes the image URL, title, creator, date, license, and description. `App` owns the current result, session history, ban list, and request state. Each discovery checks up to four batches of 50 files, skips matching filters and already-seen file IDs, and only then updates the current result and history. The displayed attributes and image come from the same Commons file record.
+
+The current cat, history, ban list, and seen file IDs are saved in `localStorage` and restored when the page reloads in the same browser and site origin. Different browsers or deployment URLs have separate saved sessions; clearing the browser's site data removes the saved trail.
 
 The Commons API is used without a private key. Individual Commons files may have different licenses; the app shows the license information returned with each file and links to its source page. Network access is required. See [LEARNING.md](LEARNING.md) for setup and implementation details.
 
